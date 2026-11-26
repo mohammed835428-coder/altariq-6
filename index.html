@@ -1,278 +1,173 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة الطارق التفاعلية — أ/ محمد أشرف</title>
-    <link href="https://googleapis.com" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #1d4ed8;
-            --primary-light: #3b82f6;
-            --primary-dark: #1e3a8a;
-            --secondary: #0f172a;
-            --accent: #f59e0b;
-            --bg: #f8fafc;
-            --card: #ffffff;
-            --text: #1e293b;
-            --muted: #64748b;
-            --success: #10b981;
-            --danger: #ef4444;
-            --border: #e2e8f0;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>منصة الطارق للتعليم الثانوي والبكالوريا — أ/ محمد أشرف</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://googleapis.com" rel="stylesheet">
+  <style>
+    body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; }
+    .hidden-section { display: none; }
+  </style>
+</head>
+<body class="text-slate-800">
 
-        * { box-sizing: border-box; font-family: 'Cairo', sans-serif; margin: 0; padding: 0; }
-        body { background-color: var(--bg); color: var(--text); line-height: 1.6; }
+  <!-- الشريط العلوي (Navbar) -->
+  <header class="bg-white shadow-sm sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3 cursor-pointer" onclick="showSection('home')">
+        <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-extrabold text-xl">ط</div>
+        <div>
+          <h1 class="font-bold text-lg text-slate-900 leading-tight">منصة الطارق للتعليم الثانوي والبكالوريا</h1>
+          <p class="text-xs text-slate-500">إشراف الأستاذ / محمد أشرف</p>
+        </div>
+      </div>
 
-        /* الهيدر العلوي */
-        .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 0.85rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
+      <nav class="flex flex-wrap items-center gap-2 text-sm font-semibold">
+        <button onclick="showSection('home')" class="px-3 py-2 rounded-lg hover:bg-indigo-50 text-slate-700 hover:text-indigo-600">الرئيسية والكورسات</button>
+        <button id="nav-auth" onclick="showSection('auth')" class="px-3 py-2 rounded-lg hover:bg-indigo-50 text-slate-700 hover:text-indigo-600">دخول / تسجيل طالب</button>
+        <button id="nav-student" onclick="showSection('student-dashboard')" class="hidden-section px-3 py-2 rounded-lg hover:bg-indigo-50 text-indigo-600">لوحة الطالب</button>
+        <button onclick="openAdminLogin()" class="px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800">لوحة تحكم المعلم</button>
+        <button id="nav-logout" onclick="logout()" class="hidden-section px-3 py-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100">تسجيل خروج</button>
+      </nav>
+    </div>
+  </header>
 
-        .brand { display: flex; align-items: center; gap: 12px; }
-        .brand-logo {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            width: 46px;
-            height: 46px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: 900;
-            box-shadow: 0 4px 12px rgba(29, 78, 216, 0.3);
-        }
+  <!-- 1. الرئيسية والكورسات -->
+  <main id="section-home" class="max-w-7xl mx-auto px-4 py-8">
+    <section class="bg-gradient-to-l from-indigo-700 to-blue-600 rounded-2xl p-8 text-white mb-10 shadow-lg">
+      <h2 class="text-3xl font-extrabold mb-3">أهلاً بك في منصة الطارق التعليمية</h2>
+      <p class="text-indigo-100 max-w-2xl text-lg">نظام تعليمي تفاعلي متكامل لطلاب المرحلة الثانوية ونظام البكالوريا — متابعة الدروس، الاختبارات، وسجلات الاشتراك بسهولة وأمان.</p>
+    </section>
 
-        .brand-text h1 { font-size: 1.25rem; font-weight: 800; color: var(--primary-dark); line-height: 1.2; }
-        .brand-text span { font-size: 0.85rem; color: var(--muted); font-weight: 700; }
+    <section>
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+        <div>
+          <h3 class="text-2xl font-bold text-slate-900">الكورسات المتاحة على المنصة</h3>
+          <p class="text-slate-500 text-sm">تصفح الكورسات حسب الصف أو النظام الدراسي واشترك لبدء المذاكرة فوراً</p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button onclick="filterCourses('all', this)" class="filter-btn bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-semibold">جميع الصفوف</button>
+          <button onclick="filterCourses('الصف الأول الثانوي', this)" class="filter-btn bg-white border px-4 py-2 rounded-lg text-sm font-semibold">الصف الأول الثانوي</button>
+          <button onclick="filterCourses('الصف الثاني الثانوي', this)" class="filter-btn bg-white border px-4 py-2 rounded-lg text-sm font-semibold">الصف الثاني الثانوي</button>
+          <button onclick="filterCourses('الصف الثالث الثانوي', this)" class="filter-btn bg-white border px-4 py-2 rounded-lg text-sm font-semibold">الصف الثالث الثانوي</button>
+          <button onclick="filterCourses('نظام البكالوريا', this)" class="filter-btn bg-white border px-4 py-2 rounded-lg text-sm font-semibold">نظام البكالوريا</button>
+        </div>
+      </div>
 
-        .nav-actions { display: flex; gap: 10px; flex-wrap: wrap; }
-        .nav-btn {
-            padding: 0.55rem 1.2rem;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: all 0.2s ease;
-        }
+      <div id="courses-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </section>
+  </main>
 
-        .nav-btn-outline { border-color: var(--primary); color: var(--primary); background: transparent; }
-        .nav-btn-outline:hover, .nav-btn-outline.active { background: var(--primary); color: white; }
-        .nav-btn-teacher { background: var(--secondary); color: white; }
-        .nav-btn-teacher:hover { background: #334155; }
+  <!-- 2. دخول / تسجيل طالب -->
+  <section id="section-auth" class="hidden-section max-w-4xl mx-auto px-4 py-10">
+    <div class="bg-white rounded-2xl shadow-md overflow-hidden grid grid-cols-1 md:grid-cols-2">
+      <!-- تسجيل الدخول -->
+      <div class="p-8 border-b md:border-b-0 md:border-l">
+        <h3 class="text-xl font-bold mb-4 text-indigo-700">تسجيل الدخول</h3>
+        <form onsubmit="handleLogin(event)" class="space-y-4">
+          <div>
+            <label class="block text-sm font-semibold mb-1">رقم الهاتف المسجل</label>
+            <input type="text" id="login-phone" required class="w-full border rounded-lg px-3 py-2 focus:outline-indigo-600" placeholder="010xxxxxxxx">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-1">كلمة المرور</label>
+            <div class="relative">
+              <input type="password" id="login-pass" required class="w-full border rounded-lg px-3 py-2 focus:outline-indigo-600">
+              <button type="button" onclick="togglePass('login-pass')" class="absolute left-3 top-2.5 text-xs text-indigo-600 font-semibold">إظهار</button>
+            </div>
+          </div>
+          <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 rounded-lg">دخول إلى حسابي</button>
+        </form>
+        <div class="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-800">
+          حساب تجريبي جاهز: الهاتف <strong>01000000001</strong> | كلمة المرور <strong>123456</strong>
+        </div>
+      </div>
 
-        /* البانر الترحيبي */
-        .hero {
-            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #1d4ed8 100%);
-            color: white;
-            padding: 3rem 1.5rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
+      <!-- إنشاء حساب جديد -->
+      <div class="p-8 bg-slate-50">
+        <h3 class="text-xl font-bold mb-4 text-slate-900">إنشاء حساب طالب جديد</h3>
+        <form onsubmit="handleRegister(event)" class="space-y-3">
+          <div>
+            <label class="block text-sm font-semibold mb-1">الاسم ثلاثي</label>
+            <input type="text" id="reg-name" required class="w-full border rounded-lg px-3 py-2 bg-white">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-1">الصف / النظام الدراسي</label>
+            <select id="reg-grade" class="w-full border rounded-lg px-3 py-2 bg-white">
+              <option value="الصف الأول الثانوي">الصف الأول الثانوي</option>
+              <option value="الصف الثاني الثانوي">الصف الثاني الثانوي</option>
+              <option value="الصف الثالث الثانوي">الصف الثالث الثانوي</option>
+              <option value="نظام البكالوريا">نظام البكالوريا</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-1">رقم هاتف الطالب</label>
+            <input type="text" id="reg-phone" required class="w-full border rounded-lg px-3 py-2 bg-white">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-1">رقم هاتف ولي الأمر</label>
+            <input type="text" id="reg-parent" required class="w-full border rounded-lg px-3 py-2 bg-white">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-1">كلمة المرور</label>
+            <div class="relative">
+              <input type="password" id="reg-pass" required class="w-full border rounded-lg px-3 py-2 bg-white">
+              <button type="button" onclick="togglePass('reg-pass')" class="absolute left-3 top-2.5 text-xs text-indigo-600 font-semibold">إظهار</button>
+            </div>
+          </div>
+          <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-lg">تسجيل الحساب الآن</button>
+        </form>
+      </div>
+    </div>
+  </section>
 
-        .hero h2 { font-size: 2.2rem; font-weight: 900; margin-bottom: 0.5rem; }
-        .hero p { color: #cbd5e1; font-size: 1.05rem; max-width: 680px; margin: 0 auto; }
+  <!-- 3. لوحة الطالب -->
+  <section id="section-student-dashboard" class="hidden-section max-w-7xl mx-auto px-4 py-8">
+    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+      <div>
+        <h3 class="text-2xl font-bold text-slate-900">مرحباً بك يا بطل، <span id="student-welcome-name" class="text-indigo-600"></span></h3>
+        <p class="text-slate-500 text-sm">بيانات الطالب وحالة الاشتراكات (<span id="student-grade-badge" class="font-semibold text-indigo-600"></span>)</p>
+      </div>
+      <button onclick="showSection('home')" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-semibold">استكشاف كورسات إضافية</button>
+    </div>
 
-        /* شريط التنبيهات العاجلة */
-        .announcement-bar {
-            background: linear-gradient(90deg, #f59e0b, #d97706);
-            color: #0f172a;
-            padding: 0.75rem 1.5rem;
-            text-align: center;
-            font-weight: 800;
-            font-size: 0.95rem;
-            display: none;
-            box-shadow: 0 2px 10px rgba(245, 158, 11, 0.2);
-        }
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+      <div class="bg-white p-5 rounded-xl shadow-sm border">
+        <h4 id="st-total-subs" class="text-3xl font-extrabold text-indigo-600">0</h4>
+        <p class="text-sm text-slate-500 mt-1">الكورسات المشترك بها</p>
+      </div>
+      <div class="bg-white p-5 rounded-xl shadow-sm border">
+        <h4 id="st-active-subs" class="text-3xl font-extrabold text-emerald-600">0</h4>
+        <p class="text-sm text-slate-500 mt-1">اشتراكات مفعلة</p>
+      </div>
+      <div class="bg-white p-5 rounded-xl shadow-sm border">
+        <h4 id="st-pending-subs" class="text-3xl font-extrabold text-amber-500">0</h4>
+        <p class="text-sm text-slate-500 mt-1">طلبات قيد المراجعة</p>
+      </div>
+    </div>
 
-        /* الحاوية والبطاقات */
-        .container { max-width: 1150px; margin: 2rem auto; padding: 0 1rem; }
-        .view-section { display: none; animation: fadeIn 0.3s ease; }
-        .view-section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
+      <div class="p-4 border-b bg-slate-50 font-bold text-slate-800">سجل اشتراكاتي وكورساتي</div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-right text-sm">
+          <thead class="bg-slate-100 text-slate-600">
+            <tr>
+              <th class="p-3">اسم الكورس</th>
+              <th class="p-3">الصف / النظام الدراسي</th>
+              <th class="p-3">تاريخ الطلب</th>
+              <th class="p-3">حالة الاشتراك</th>
+              <th class="p-3">الإجراء</th>
+            </tr>
+          </thead>
+          <tbody id="student-subs-table" class="divide-y"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
 
-        .card {
-            background: var(--card);
-            padding: 2rem;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-            margin-bottom: 1.5rem;
-            border: 1px solid var(--border);
-        }
-
-        .card-header {
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid #f1f5f9;
-            padding-bottom: 0.8rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .card-header h3 { color: var(--primary-dark); font-size: 1.35rem; font-weight: 800; }
-        .card-header p { color: var(--muted); font-size: 0.9rem; }
-
-        /* النماذج وحقول الإدخال */
-        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
-        .form-group { margin-bottom: 1.1rem; }
-        label { display: block; font-weight: 700; margin-bottom: 0.4rem; font-size: 0.92rem; color: var(--secondary); }
-        input, select, textarea {
-            width: 100%;
-            padding: 0.78rem 1rem;
-            border: 1.5px solid #cbd5e1;
-            border-radius: 10px;
-            font-size: 0.95rem;
-            outline: none;
-            transition: 0.2s;
-            background: #f8fafc;
-        }
-        input:focus, select:focus, textarea:focus { border-color: var(--primary); background: #ffffff; box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.1); }
-
-        .pass-wrapper { position: relative; }
-        .toggle-pass {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1.1rem;
-            color: var(--muted);
-        }
-
-        /* الأزرار */
-        .btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 0.8rem 1.4rem;
-            border-radius: 10px;
-            font-size: 0.95rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            text-decoration: none;
-        }
-        .btn:hover { background: var(--primary-dark); transform: translateY(-1px); }
-        .btn-block { width: 100%; }
-        .btn-success { background: var(--success); }
-        .btn-success:hover { background: #059669; }
-        .btn-danger { background: var(--danger); }
-        .btn-danger:hover { background: #dc2626; }
-        .btn-outline { background: transparent; border: 1.5px solid var(--primary); color: var(--primary); }
-        .btn-outline:hover { background: var(--primary); color: white; }
-        .btn-sm { padding: 0.45rem 0.85rem; font-size: 0.82rem; border-radius: 8px; }
-
-        /* تبويبات */
-        .auth-tabs, .admin-tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 1.5rem;
-            background: #f1f5f9;
-            padding: 6px;
-            border-radius: 12px;
-            flex-wrap: wrap;
-        }
-
-        .auth-tab, .admin-tab {
-            flex: 1;
-            min-width: 120px;
-            padding: 0.7rem;
-            text-align: center;
-            border-radius: 9px;
-            font-weight: 800;
-            cursor: pointer;
-            border: none;
-            background: transparent;
-            color: var(--muted);
-            transition: 0.2s;
-        }
-
-        .auth-tab.active, .admin-tab.active {
-            background: white;
-            color: var(--primary);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        }
-
-        /* شريط التقدم للطالب */
-        .progress-container {
-            background: #e2e8f0;
-            border-radius: 20px;
-            height: 14px;
-            width: 100%;
-            overflow: hidden;
-            margin: 10px 0;
-        }
-        .progress-bar {
-            background: linear-gradient(90deg, var(--success), #34d399);
-            height: 100%;
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-
-        /* بطاقات الكورسات التفاعلية */
-        .courses-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.4rem; }
-        .course-box {
-            border: 1.5px solid var(--border);
-            border-radius: 16px;
-            overflow: hidden;
-            background: #ffffff;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .course-box:hover { transform: translateY(-4px); box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08); }
-        .course-box.completed { border-color: var(--success); }
-
-        .course-header {
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-            color: white;
-            padding: 1.2rem;
-            position: relative;
-        }
-        .course-header h4 { font-size: 1.15rem; font-weight: 800; }
-        .course-badge {
-            font-size: 0.78rem;
-            background: var(--accent);
-            color: #0f172a;
-            padding: 3px 10px;
-            border-radius: 6px;
-            font-weight: 800;
-            display: inline-block;
-            margin-top: 6px;
-        }
-        .done-tag {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            background: var(--success);
-            color: white;
-            font-size: 0.75rem;
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-weight: 800;
-        }
-
-        .course-body { padding: 1.2rem; color: var(--text); font-size: 0.94rem; flex-grow: 1; }
+  <!-- 4. لوحة تحكم المعلم -->
+  <section id="section-admin-dashboard" class="hidden-section max-w-7xl mx-auto px-4 py-8">
+    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+      <div>

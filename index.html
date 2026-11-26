@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>منصة الطارق للتعليم الثانوي والبكالوريا — أ/ محمد أشرف</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://tailwindcss.com"></script>
   <link href="https://googleapis.com" rel="stylesheet">
   <style>
     body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; }
@@ -38,7 +38,7 @@
   <main id="section-home" class="max-w-7xl mx-auto px-4 py-8">
     <section class="bg-gradient-to-l from-indigo-700 to-blue-600 rounded-2xl p-8 text-white mb-10 shadow-lg">
       <h2 class="text-3xl font-extrabold mb-3">أهلاً بك في منصة الطارق التعليمية</h2>
-      <p class="text-indigo-100 max-w-2xl text-lg">نظام تعليمي تفاعلي متكامل لطلاب المرحلة الثانوية ونظام البكالوريا — متابعة الدروس، الاختبارات، وسجلات الاشتراك بسهولة وأمان.</p>
+      <p class="text-indigo-100 max-w-2xl text-lg">نظام تعليمي تفاعلي متكامل لطلاب المرحلة الثانوية ونظام البكالوريا — متابعة الدروس، الملازم والملفات، وسجلات الاشتراك بسهولة وأمان.</p>
     </section>
 
     <section>
@@ -148,7 +148,8 @@
       </div>
     </div>
 
-    <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
+    <!-- جدول اشتراكات الطالب -->
+    <div class="bg-white rounded-xl shadow-sm border overflow-hidden mb-8">
       <div class="p-4 border-b bg-slate-50 font-bold text-slate-800">سجل اشتراكاتي وكورساتي</div>
       <div class="overflow-x-auto">
         <table class="w-full text-right text-sm">
@@ -165,9 +166,7 @@
         </table>
       </div>
     </div>
-  </section>
 
-  <!-- 4. لوحة تحكم المعلم -->
-  <section id="section-admin-dashboard" class="hidden-section max-w-7xl mx-auto px-4 py-8">
-    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
-      <div>
+    <!-- قسم الملازم والملفات وإرسال الواجبات للطالب -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div class="bg-white rounded-xl shadow-sm border p-5">
